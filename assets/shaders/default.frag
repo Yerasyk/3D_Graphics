@@ -7,7 +7,7 @@ out vec4 FragColor;
 
 uniform sampler2D texture1;
 uniform sampler2D texture2;
-uniform float proportion;
+uniform float proportion=0.2;
 
 void main()
 {

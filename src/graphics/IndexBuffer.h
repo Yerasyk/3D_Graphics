@@ -2,11 +2,11 @@
 
 #include <glad/glad.h>
 
-class EBO
+class IndexBuffer
 {
 public:
 	GLuint ID;
-	EBO(GLuint* indices, GLsizeiptr size);
+	IndexBuffer(GLuint* indices, GLsizeiptr size);
 	void Bind();
 	void Unbind();
 	void Delete();

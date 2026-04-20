@@ -1,7 +1,7 @@
 #include "Texture2D.h"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include <stb/stb_image.h>
 
 Texture2D::Texture2D(const char* texturePath, GLuint edgeHandling)
 {
@@ -14,6 +14,7 @@ Texture2D::Texture2D(const char* texturePath, GLuint edgeHandling)
 		return;
 	}
 
+	//Support different channel counts (grayscale, RGB, RGBA)
 	GLenum format;
 	if (nrChannels == 1)
 		format = GL_RED;

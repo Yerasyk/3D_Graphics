@@ -1,11 +1,7 @@
 #include <iostream>
 #include <SDL3/SDL.h>
 #include <glad/glad.h>
-#include "Shader.h"
-#include "VAO.h"
-#include "VBO.h"
-#include "EBO.h"
-#include "Texture2D.h"
+#include "graphics/graphics.h"
 
 namespace
 {
@@ -38,10 +34,10 @@ GLuint triangleIndices[] = {
 
 GLfloat rectVertices[] = {
 	// positions          // colors           // texture coords
-	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   2.0f, 2.0f,   // top right
-	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   2.0f, 0.0f,   // bottom right
+	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
 	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 2.0f    // top left 
+	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 };
 
 GLuint rectIndices[]{
@@ -98,32 +94,32 @@ int main()
 	// Set Drawing size and position
 	glViewport(0, 0, 800, 600);
 	
-	Texture2D brickTex("Textures/container.jpg", GL_CLAMP_TO_EDGE);
-	Texture2D faceTex("Textures/awesomeface.png");
+	Texture2D brickTex("assets/textures/container.jpg", GL_CLAMP_TO_EDGE);
+	Texture2D faceTex("assets/textures/awesomeface.png");
 
-	Shader shaderProgram("Shaders/default.vert", "Shaders/default.frag");
+	Shader shaderProgram("assets/shaders/default.vert", "assets/shaders/default.frag");
 
-	VAO VAO1;
-	VAO1.Bind();
+	VertexArray vertArr;
+	vertArr.Bind();
 
-	VBO VBO1(rectVertices, sizeof(rectVertices));
-	EBO EBO1(rectIndices, sizeof(rectIndices));
+	VertexBuffer vertBuff(rectVertices, sizeof(rectVertices));
+	IndexBuffer indBuff(rectIndices, sizeof(rectIndices));
 
-	VAO1.LinkVBO(VBO1, 0, 3, 8, 0);
-	VAO1.LinkVBO(VBO1, 1, 3, 8, 3);
-	VAO1.LinkVBO(VBO1, 2, 2, 8, 6);
+	vertArr.LinkVBO(vertBuff, 0, 3, 8, 0);
+	vertArr.LinkVBO(vertBuff, 1, 3, 8, 3);
+	vertArr.LinkVBO(vertBuff, 2, 2, 8, 6);
 
-	VBO1.Unbind();
-	VAO1.Unbind();
-	EBO1.Unbind();
+	vertBuff.Unbind();
+	vertArr.Unbind();
+	indBuff.Unbind();
 	faceTex.Unbind();
 
 
-	//Wireframe mode
+	//Control variables
 	bool mode = false;
 	float xoffset = 0.0f;
 	float yoffset = 0.0f;
-	float proportion = 0.2f;
+	//float proportion = 0.2f;
 
 	shaderProgram.use();
 
@@ -133,7 +129,7 @@ int main()
 	shaderProgram.setInt("texture1", 0);
 	shaderProgram.setInt("texture2", 1);
 
-	VAO1.Bind();
+	vertArr.Bind();
 
 	bool running = true;
 	while (running) {
@@ -164,13 +160,15 @@ int main()
 				}
 				if (event.key.key == SDLK_UP)
 				{
-					proportion += 0.05f;
-					shaderProgram.setFloat("proportion", proportion);
+					//proportion += 0.05f;
+					yoffset += 0.05f;
+					shaderProgram.setFloat("yOffset", yoffset);
 				}
 				if (event.key.key == SDLK_DOWN)
 				{
-					proportion -= 0.05f;
-					shaderProgram.setFloat("proportion", proportion);
+					//proportion -= 0.05f;
+					yoffset -= 0.05f;
+					shaderProgram.setFloat("yOffset", yoffset);
 				}
 			}
 		}
@@ -182,16 +180,16 @@ int main()
 		//Draw Triangle
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 
-		//Draw from EBO/Element Array
+		//Draw from IndexBuffer/Element Array
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
 		SDL_GL_SwapWindow(window);
 	}
 
-	VAO1.Delete();
-	VBO1.Delete();
-	EBO1.Delete();
+	vertArr.Delete();
+	vertBuff.Delete();
+	indBuff.Delete();
 	shaderProgram.Delete();
 	brickTex.Delete();
 	faceTex.Delete();
