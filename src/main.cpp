@@ -3,6 +3,10 @@
 #include <glad/glad.h>
 #include "graphics/graphics.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace
 {
 	void UpdateViewport(SDL_Window* window)
@@ -43,6 +47,50 @@ GLfloat rectVertices[] = {
 GLuint rectIndices[]{
 	0, 1, 2,
 	0, 3, 2
+};
+
+float cube[] = {
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
 int main()
@@ -93,6 +141,7 @@ int main()
 
 	// Set Drawing size and position
 	glViewport(0, 0, 800, 600);
+	glEnable(GL_DEPTH_TEST);
 	
 	Texture2D brickTex("assets/textures/container.jpg", GL_CLAMP_TO_EDGE);
 	Texture2D faceTex("assets/textures/awesomeface.png");
@@ -102,32 +151,52 @@ int main()
 	VertexArray vertArr;
 	vertArr.Bind();
 
-	VertexBuffer vertBuff(rectVertices, sizeof(rectVertices));
+	VertexBuffer vertBuff(cube, sizeof(cube));
 	IndexBuffer indBuff(rectIndices, sizeof(rectIndices));
 
-	vertArr.LinkVBO(vertBuff, 0, 3, 8, 0);
-	vertArr.LinkVBO(vertBuff, 1, 3, 8, 3);
-	vertArr.LinkVBO(vertBuff, 2, 2, 8, 6);
+	////Rectangulare
+	//vertArr.LinkVBO(vertBuff, 0, 3, 8, 0);
+	//vertArr.LinkVBO(vertBuff, 1, 3, 8, 3);
+	//vertArr.LinkVBO(vertBuff, 2, 2, 8, 6);
+	////Cube
+	vertArr.LinkVBO(vertBuff, 0, 3, 5, 0);
+	vertArr.LinkVBO(vertBuff, 2, 2, 5, 3);
 
 	vertBuff.Unbind();
 	vertArr.Unbind();
 	indBuff.Unbind();
 	faceTex.Unbind();
 
-
+	///////////////////////////////////////////////////////////////////
 	//Control variables
+	shaderProgram.use();
+
 	bool mode = false;
 	float xoffset = 0.0f;
 	float yoffset = 0.0f;
-	//float proportion = 0.2f;
 
-	shaderProgram.use();
+	//GLM variables
+
+
+	//float proportion = 0.2f;
 
 	brickTex.Bind(0);
 	faceTex.Bind(1);
 
 	shaderProgram.setInt("texture1", 0);
 	shaderProgram.setInt("texture2", 1);
+	
+	//Matrices for Model, View, Projection
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	//Positive rad mean lifting camera
+	//view = glm::rotate(view, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	projection = glm::perspective(glm::radians(40.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+	shaderProgram.setMat4("view", view);
+	shaderProgram.setMat4("projection", projection);
+
 
 	vertArr.Bind();
 
@@ -175,14 +244,12 @@ int main()
 
 		//Draw Background
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-		
-		//Draw Triangle
-		//glDrawArrays(GL_TRIANGLES, 0, 6);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//Draw from IndexBuffer/Element Array
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		shaderProgram.setMat4("model", model);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		SDL_GL_SwapWindow(window);
 	}
