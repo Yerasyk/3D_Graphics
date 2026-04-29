@@ -1,3 +1,5 @@
 /* Visual Studio Settings File */
 {
+  "environment.tabs.documentTabs.minimumTabWidth": 60,
+  "environment.tabs.documentTabs.dirtyIndicator": "star"
 }

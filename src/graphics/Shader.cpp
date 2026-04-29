@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "shader.h"
 #include <glm/gtc/type_ptr.hpp>
 
 // constructor generates the shader on the fly

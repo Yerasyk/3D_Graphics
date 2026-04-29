@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
-#include "VertexBuffer.h"
+#include "vertex_buffer.h"
 
 class VertexArray
 {

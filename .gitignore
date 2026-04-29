@@ -15,3 +15,7 @@ Intermediates/
 # vcpkg
 vcpkg_installed/
 
+# Agentic tools
+.claude
+.wolf
+CLAUDE.md

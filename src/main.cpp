@@ -7,47 +7,18 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "camera.h"
+#include "key_code.h"
+
 namespace
 {
-	void UpdateViewport(SDL_Window* window)
+	void UpdateViewport(SDL_Window* window, int& width, int& height)
 	{
-		int width = 0;
-		int height = 0;
 		SDL_GetWindowSizeInPixels(window, &width, &height);
 		glViewport(0, 0, width, height);
 	}
+
 }
-
-// Triangle
-GLfloat triangleVertices[] = {
-	//Positions				//Colors				//Texture Coordinates
-	-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,										// 0 - Left
-	 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,										// 1 - Right
-	 0.0f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,										// 2 - Top
-	 -0.25f, 0.0f, 0.0f,	1.0f, 1.0f, 0.0f,										// 3 - Mid_LT
-	 0.0f, -0.5f, 0.0f,		0.0f, 1.0f, 1.0f,										// 4 - Mid_LR
-	 0.25f, 0.0f, 0.0f,		1.0f, 0.0f, 1.0f										// 5 - Mid_RT
-};
-
-GLuint triangleIndices[] = {
-	0, 4, 3, // Left Bottom
-	4, 1, 5, // Right Bottom
-	3, 5, 2// Top Triangle
-};
-
-
-GLfloat rectVertices[] = {
-	// positions          // colors           // texture coords
-	 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-	 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-	-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-	-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
-};
-
-GLuint rectIndices[]{
-	0, 1, 2,
-	0, 3, 2
-};
 
 float cube[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -93,163 +64,205 @@ float cube[] = {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
 
+glm::vec3 cubePositions[] = {
+	glm::vec3( 0.0f,  0.0f,   0.0f),
+	glm::vec3( 2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f,  -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3( 2.4f, -0.4f,  -3.5f),
+	glm::vec3(-1.7f,  3.0f,  -7.5f),
+	glm::vec3( 1.3f, -2.0f,  -2.5f),
+	glm::vec3( 1.5f,  2.0f,  -2.5f),
+	glm::vec3( 1.5f,  0.2f,  -1.5f),
+	glm::vec3(-1.3f,  1.0f,  -1.5f)
+};
+
 int main()
 {
-	//Initialize SDL
-	if(!SDL_Init(SDL_INIT_VIDEO))
+	int width = 800;
+	int height = 600;
+
+	if (!SDL_Init(SDL_INIT_VIDEO))
 	{
 		std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
 		return 1;
 	}
 
-	//Setting up OpenGL context attributes
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-
-
-	// Create SDL window with OpenGL context
 	SDL_Window* window = SDL_CreateWindow(
 		"SDL3 OpenGL",
-		800,
-		600,
+		800, 600,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE
 	);
 
-	if (!window) {
+	if (!window)
+	{
 		std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 		SDL_Quit();
 		return 1;
 	}
 
-
-
-	// Create OpenGL context
 	SDL_GLContext glContext = SDL_GL_CreateContext(window);
 
-	// Load OpenGL functions using glad
-	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
-		std::cout << "Failed to initialize GLAD" << std::endl;
+	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
+	{
+		std::cerr << "Failed to initialize GLAD" << std::endl;
 		SDL_GL_DestroyContext(glContext);
 		SDL_DestroyWindow(window);
 		SDL_Quit();
-		return -1;
+		return 1;
 	}
 
-
-
-	// Set Drawing size and position
+	//OpenGL Settings
 	glViewport(0, 0, 800, 600);
 	glEnable(GL_DEPTH_TEST);
-	
+
+	// Lock mouse to window for FPS-style camera
+	SDL_SetWindowRelativeMouseMode(window, true);
+
 	Texture2D brickTex("assets/textures/container.jpg", GL_CLAMP_TO_EDGE);
 	Texture2D faceTex("assets/textures/awesomeface.png");
 
 	Shader shaderProgram("assets/shaders/default.vert", "assets/shaders/default.frag");
 
-	VertexArray vertArr;
-	vertArr.Bind();
-
+	VertexArray  vertArr;
 	VertexBuffer vertBuff(cube, sizeof(cube));
-	IndexBuffer indBuff(rectIndices, sizeof(rectIndices));
+	IndexBuffer  indBuff(nullptr, 0); // cube uses glDrawArrays, no indices needed
 
-	////Rectangulare
-	//vertArr.LinkVBO(vertBuff, 0, 3, 8, 0);
-	//vertArr.LinkVBO(vertBuff, 1, 3, 8, 3);
-	//vertArr.LinkVBO(vertBuff, 2, 2, 8, 6);
-	////Cube
-	vertArr.LinkVBO(vertBuff, 0, 3, 5, 0);
-	vertArr.LinkVBO(vertBuff, 2, 2, 5, 3);
-
+	vertArr.Bind();
+	vertArr.LinkVBO(vertBuff, 0, 3, 5, 0); // position
+	vertArr.LinkVBO(vertBuff, 2, 2, 5, 3); // texture coords
 	vertBuff.Unbind();
 	vertArr.Unbind();
-	indBuff.Unbind();
-	faceTex.Unbind();
 
-	///////////////////////////////////////////////////////////////////
-	//Control variables
 	shaderProgram.use();
-
-	bool mode = false;
-	float xoffset = 0.0f;
-	float yoffset = 0.0f;
-
-	//GLM variables
-
-
-	//float proportion = 0.2f;
-
 	brickTex.Bind(0);
 	faceTex.Bind(1);
-
 	shaderProgram.setInt("texture1", 0);
 	shaderProgram.setInt("texture2", 1);
-	
-	//Matrices for Model, View, Projection
-	glm::mat4 view = glm::mat4(1.0f);
-	glm::mat4 projection = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	//Positive rad mean lifting camera
-	//view = glm::rotate(view, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	projection = glm::perspective(glm::radians(40.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-	shaderProgram.setMat4("view", view);
-	shaderProgram.setMat4("projection", projection);
+	//Camera
+	Camera camera;
 
+	float lastX = width / 2.0f;
+	float lastY = height/ 2.0f;
+	bool firstMouse = true;
 
-	vertArr.Bind();
+	//Wireframe
+	bool  wireframe = false;
+
+	//timing
+	float lastTime  = static_cast<float>(SDL_GetTicks()) / 1000.0f;
 
 	bool running = true;
-	while (running) {
+	while (running)
+	{
+		//Delta time
+		float currentTime = static_cast<float>(SDL_GetTicks()) / 1000.0f;
+		float deltaTime   = currentTime - lastTime;
+		lastTime          = currentTime;
+
+		//Inputs
+		const bool* keyStates = SDL_GetKeyboardState(NULL);  // Get the current state of all keys
+
+		// Camera movements using keyboard state
+		if (keyStates[SDL_SCANCODE_W]) {
+			camera.ProcessKeyboard(KeyCode::W, deltaTime);  // Move forward
+		}
+		if (keyStates[SDL_SCANCODE_A]) {
+			camera.ProcessKeyboard(KeyCode::A, deltaTime);  // Move left
+		}
+		if (keyStates[SDL_SCANCODE_S]) {
+			camera.ProcessKeyboard(KeyCode::S, deltaTime);  // Move backward
+		}
+		if (keyStates[SDL_SCANCODE_D]) {
+			camera.ProcessKeyboard(KeyCode::D, deltaTime);  // Move right
+		}
+
+		// Wireframe mode toggle (Tab key)
+		if (keyStates[SDL_SCANCODE_TAB]) {
+			wireframe = !wireframe;
+			glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+		}
+
+
+		//Events
 		SDL_Event event;
 		while (SDL_PollEvent(&event))
 		{
-			// Handle quit event
-			if (event.type == SDL_EVENT_QUIT) 
+			//Windows resize
+			if (event.type == SDL_EVENT_WINDOW_RESIZED)
+				UpdateViewport(window, width, height);
+
+			//Quitting game 
+			if (event.type == SDL_EVENT_QUIT ||
+				(event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
 				running = false;
-			// Handle window resize event
-			if (event.window.type == SDL_EVENT_WINDOW_RESIZED)
-				UpdateViewport(window);
-			// Space to change between wireframe and fill modes
-			if (event.key.type == SDL_EVENT_KEY_DOWN) {
-				if (event.key.key == SDLK_SPACE) {
-					mode = !mode;
-					glPolygonMode(GL_FRONT_AND_BACK, mode ? GL_FILL : GL_LINE);
-				}
-				if (event.key.key == SDLK_RIGHT)
-				{
-					xoffset += 0.05f;
-					shaderProgram.setFloat("xOffset", xoffset);
-				}
-				if (event.key.key == SDLK_LEFT)
-				{
-					xoffset -= 0.05f;
-					shaderProgram.setFloat("xOffset", xoffset);
-				}
-				if (event.key.key == SDLK_UP)
-				{
-					//proportion += 0.05f;
-					yoffset += 0.05f;
-					shaderProgram.setFloat("yOffset", yoffset);
-				}
-				if (event.key.key == SDLK_DOWN)
-				{
-					//proportion -= 0.05f;
-					yoffset -= 0.05f;
-					shaderProgram.setFloat("yOffset", yoffset);
-				}
+			}
+
+			////Mouse Events
+			//Move
+			if (event.type == SDL_EVENT_MOUSE_MOTION) {
+				float xpos = event.motion.xrel; 
+				float ypos = -event.motion.yrel;
+
+				//if (firstMouse)
+				//{
+				//	lastX = xpos;
+				//	lastY = ypos;
+				//	firstMouse = false;
+				//}
+				//float xoffset = xpos - lastX;
+				//float yoffset = ypos - lastY;
+
+				//lastX = xpos;
+				//lastY = ypos;
+				//camera.ProcessMouseMovements(xoffset, yoffset, true);
+
+				camera.ProcessMouseMovements(xpos, ypos, true);
+			}
+
+			//Scroll
+			if (event.type == SDL_EVENT_MOUSE_WHEEL) {
+				float scrollY = event.wheel.y;
+				camera.ProcessMouseScroll(scrollY);
 			}
 		}
 
-		//Draw Background
+		// Render
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		shaderProgram.setMat4("model", model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		vertArr.Bind();
+
+		SDL_GetWindowSizeInPixels(window, &width, &height);
+
+		glm::mat4 view = camera.GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.fov), (float)width / (float)height, 0.1f, 100.0f);
+
+		shaderProgram.setMat4("view", view);
+		shaderProgram.setMat4("projection", projection);
+
+		for (GLuint i = 0; i < 10; i++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+
+			if (i % 3 == 0)
+			{
+				model = glm::rotate(model, currentTime * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+				model = glm::scale(model, glm::vec3(0.5f));
+			}
+
+			float angle = 20.0f * i;
+			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+
+			shaderProgram.setMat4("model", model);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 
 		SDL_GL_SwapWindow(window);
 	}

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Shader.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "Texture2D.h"
+#include "shader.h"
+#include "vertex_array.h"
+#include "vertex_buffer.h"
+#include "index_buffer.h"
+#include "texture2d.h"
