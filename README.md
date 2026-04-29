@@ -1,7 +1,7 @@
 This project documents my progress while learning OpenGL using LearnOpenGL.
 
 Current progress:
-- Getting Started/Transformations
+- Coordinates
 
 Plans after learning fundamentals:
 1. Build a small physics simulation
