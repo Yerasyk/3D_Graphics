@@ -21,47 +21,48 @@ namespace
 }
 
 float cube[] = {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	//Coord						//Textures			//Normals
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f,			0.0f,  0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,		1.0f, 0.0f,			0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f,			0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f,			0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f,			0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,		0.0f, 0.0f,			0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f,			0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f,			0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f,			0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 1.0f,			0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,		0.0f, 1.0f,			0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f,			0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			-1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,		1.0f, 1.0f,			-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			-1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f,			-1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			-1.0f,  0.0f,  0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f,			1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,		0.0f, 0.0f,			1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			1.0f,  0.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,		1.0f, 1.0f,			0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f,			0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,		1.0f, 0.0f,			0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,		0.0f, 0.0f,			0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,		0.0f, 1.0f,			0.0f, -1.0f,  0.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f,			0.0f, 1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,		1.0f, 1.0f,			0.0f, 1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			0.0f, 1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,		1.0f, 0.0f,			0.0f, 1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,		0.0f, 0.0f,			0.0f, 1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,		0.0f, 1.0f,			0.0f, 1.0f,  0.0f
 };
 
 glm::vec3 cubePositions[] = {
@@ -79,19 +80,24 @@ glm::vec3 cubePositions[] = {
 
 int main()
 {
+	//////    Setting Up SDL3 & OpenGL    ///////
+
 	int width = 800;
 	int height = 600;
 
+	//SDL Initializing
 	if (!SDL_Init(SDL_INIT_VIDEO))
 	{
 		std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
 		return 1;
 	}
 
+	//Getting OpenGL
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
+	//Creating Window
 	SDL_Window* window = SDL_CreateWindow(
 		"SDL3 OpenGL",
 		800, 600,
@@ -105,6 +111,7 @@ int main()
 		return 1;
 	}
 
+	//Creating GL context and Loading
 	SDL_GLContext glContext = SDL_GL_CreateContext(window);
 
 	if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
@@ -119,75 +126,82 @@ int main()
 	//OpenGL Settings
 	glViewport(0, 0, 800, 600);
 	glEnable(GL_DEPTH_TEST);
+	
 
-	// Lock mouse to window for FPS-style camera
-	SDL_SetWindowRelativeMouseMode(window, true);
 
-	Texture2D brickTex("assets/textures/container.jpg", GL_CLAMP_TO_EDGE);
-	Texture2D faceTex("assets/textures/awesomeface.png");
-
-	Shader shaderProgram("assets/shaders/default.vert", "assets/shaders/default.frag");
-
+	//////    Creating VAO, VBA, EBO for CUBE object   //////
 	VertexArray  vertArr;
 	VertexBuffer vertBuff(cube, sizeof(cube));
-	IndexBuffer  indBuff(nullptr, 0); // cube uses glDrawArrays, no indices needed
+	IndexBuffer  indBuff(nullptr, 0); // Needed for drawing Element by indices
 
+	//Creating attribute pointers in Vertex Array
 	vertArr.Bind();
-	vertArr.LinkVBO(vertBuff, 0, 3, 5, 0); // position
-	vertArr.LinkVBO(vertBuff, 2, 2, 5, 3); // texture coords
+	vertArr.LinkVBO(vertBuff, 0, 3, 8, 0); // position
+	vertArr.LinkVBO(vertBuff, 1, 2, 8, 3); // texture coords
+	vertArr.LinkVBO(vertBuff, 2, 3, 8, 5); // Normals
 	vertBuff.Unbind();
 	vertArr.Unbind();
 
+	//Creating shader program and textures
+	Shader shaderProgram("assets/shaders/cube.vert", "assets/shaders/cube.frag");
+	Texture2D legoTex("assets/textures/lego.jpg", GL_CLAMP_TO_EDGE);
+	Texture2D faceTex("assets/textures/awesomeface.png");
+
+	//Binding textures to shader
 	shaderProgram.use();
-	brickTex.Bind(0);
-	faceTex.Bind(1);
+	legoTex.Bind(0);
+	//faceTex.Bind(1);
 	shaderProgram.setInt("texture1", 0);
-	shaderProgram.setInt("texture2", 1);
+	//shaderProgram.setInt("texture2", 1);
+
+	///// Creating light VAO (with same cube buffer)   /////
+	VertexArray lightVAO;
+	lightVAO.Bind();
+	lightVAO.LinkVBO(vertBuff, 0, 3, 8, 0);
+	lightVAO.Unbind();
+	Shader lightShader("assets/shaders/cube.vert", "assets/shaders/light.frag");
+	
 
 	//Camera
 	Camera camera;
 
 	float lastX = width / 2.0f;
 	float lastY = height/ 2.0f;
-	bool firstMouse = true;
+	bool rightClick = false;
 
 	//Wireframe
 	bool  wireframe = false;
 
 	//timing
-	float lastTime  = static_cast<float>(SDL_GetTicks()) / 1000.0f;
-
+	float lastTime = (float)(SDL_GetTicks() / 1000.0f);
 	bool running = true;
 	while (running)
 	{
 		//Delta time
-		float currentTime = static_cast<float>(SDL_GetTicks()) / 1000.0f;
+		float currentTime = (float)(SDL_GetTicks() / 1000.0f);
 		float deltaTime   = currentTime - lastTime;
 		lastTime          = currentTime;
 
 		//Inputs
 		const bool* keyStates = SDL_GetKeyboardState(NULL);  // Get the current state of all keys
+		
+		//Right click holding enables camera movement
+		if (rightClick) {
 
-		// Camera movements using keyboard state
-		if (keyStates[SDL_SCANCODE_W]) {
-			camera.ProcessKeyboard(KeyCode::W, deltaTime);  // Move forward
+			// Camera movements using keyboard state
+			if (keyStates[SDL_SCANCODE_W]) {
+				camera.ProcessKeyboard(KeyCode::W, deltaTime);  // Move forward
+			}
+			if (keyStates[SDL_SCANCODE_A]) {
+				camera.ProcessKeyboard(KeyCode::A, deltaTime);  // Move left
+			}
+			if (keyStates[SDL_SCANCODE_S]) {
+				camera.ProcessKeyboard(KeyCode::S, deltaTime);  // Move backward
+			}
+			if (keyStates[SDL_SCANCODE_D]) {
+				camera.ProcessKeyboard(KeyCode::D, deltaTime);  // Move right
+			}
 		}
-		if (keyStates[SDL_SCANCODE_A]) {
-			camera.ProcessKeyboard(KeyCode::A, deltaTime);  // Move left
-		}
-		if (keyStates[SDL_SCANCODE_S]) {
-			camera.ProcessKeyboard(KeyCode::S, deltaTime);  // Move backward
-		}
-		if (keyStates[SDL_SCANCODE_D]) {
-			camera.ProcessKeyboard(KeyCode::D, deltaTime);  // Move right
-		}
-
-		// Wireframe mode toggle (Tab key)
-		if (keyStates[SDL_SCANCODE_TAB]) {
-			wireframe = !wireframe;
-			glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
-		}
-
 
 		//Events
 		SDL_Event event;
@@ -202,25 +216,28 @@ int main()
 				(event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)) {
 				running = false;
 			}
+			
+			//Wireframe mode
+			if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_TAB) {
+				wireframe = !wireframe;
+				glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+			}
 
-			////Mouse Events
-			//Move
-			if (event.type == SDL_EVENT_MOUSE_MOTION) {
+
+			////////  Mouse ///////////
+			//Righ click enabling/disabling
+			if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+				if (event.button.button == SDL_BUTTON_RIGHT) {
+					// Lock mouse to window for FPS-style camera
+					rightClick = !rightClick;
+					SDL_SetWindowRelativeMouseMode(window, rightClick);
+				}
+			}
+			
+			//Rotation
+			if (rightClick && event.type == SDL_EVENT_MOUSE_MOTION) {
 				float xpos = event.motion.xrel; 
 				float ypos = -event.motion.yrel;
-
-				//if (firstMouse)
-				//{
-				//	lastX = xpos;
-				//	lastY = ypos;
-				//	firstMouse = false;
-				//}
-				//float xoffset = xpos - lastX;
-				//float yoffset = ypos - lastY;
-
-				//lastX = xpos;
-				//lastY = ypos;
-				//camera.ProcessMouseMovements(xoffset, yoffset, true);
 
 				camera.ProcessMouseMovements(xpos, ypos, true);
 			}
@@ -232,46 +249,90 @@ int main()
 			}
 		}
 
-		// Render
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		//////////    Render   ////////////
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		vertArr.Bind();
-
-		SDL_GetWindowSizeInPixels(window, &width, &height);
-
+		//Uniform veiw and projections matrix
 		glm::mat4 view = camera.GetViewMatrix();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.fov), (float)width / (float)height, 0.1f, 100.0f);
+		glm::mat4 model;
 
+		////    LIGHT Object    ////
+		lightShader.use();
+		lightShader.setMat4("view", view);
+		lightShader.setMat4("projection", projection);
+
+		// Circling lights
+		float radius = 2.0f;
+		float speed = 2.0f;
+
+		//light 1  
+		lightVAO.Bind();
+		glm::vec3 lightPos1;
+		lightPos1.x = cos(currentTime * speed + 30.0f) * radius;
+		lightPos1.z = sin(currentTime * speed + 30.0f) * radius;
+		lightPos1.y = 0.5f;
+
+		glm::vec3 lightColor1(0.8f, 0.2f, 0.6f);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos1);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShader.setMat4("model", model);
+		lightShader.setVec3("color",lightColor1);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		lightVAO.Unbind();
+
+		
+		//light 2 
+		lightVAO.Bind();
+		glm::vec3 lightPos2;
+		lightPos2.x = cos(currentTime * speed) * radius;
+		lightPos2.z = 0.0f;
+		lightPos2.y = sin(currentTime * speed) * radius;
+		glm::vec3 lightColor2(0.2f, 0.9f, 0.6f);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos2);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightShader.setVec3("color", lightColor2);
+		lightShader.setMat4("model", model);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		lightVAO.Unbind();
+
+
+		/////   CUBE Object   /////
+		shaderProgram.use();
 		shaderProgram.setMat4("view", view);
 		shaderProgram.setMat4("projection", projection);
+		shaderProgram.setVec3("objectColor", glm::vec3(0.5f, 0.5f, 0.5f));
+		shaderProgram.setVec3("lightColor1", lightColor1);
+		shaderProgram.setVec3("lightPos1", lightPos1);
+		shaderProgram.setVec3("lightColor2", lightColor2);
+		shaderProgram.setVec3("lightPos2", lightPos2);
+		shaderProgram.setVec3("viewPos", camera.position);
 
-		for (GLuint i = 0; i < 10; i++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-
-			if (i % 3 == 0)
-			{
-				model = glm::rotate(model, currentTime * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-				model = glm::scale(model, glm::vec3(0.5f));
-			}
-
-			float angle = 20.0f * i;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-
-			shaderProgram.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		//Transform
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		shaderProgram.setMat4("model", model);
+		//Draw
+		vertArr.Bind();
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		vertArr.Unbind();
 
 		SDL_GL_SwapWindow(window);
 	}
 
 	vertArr.Delete();
+	lightVAO.Delete();
+
 	vertBuff.Delete();
 	indBuff.Delete();
+
 	shaderProgram.Delete();
-	brickTex.Delete();
+	lightShader.Delete();
+
+	legoTex.Delete();
 	faceTex.Delete();
 
 	SDL_GL_DestroyContext(glContext);
