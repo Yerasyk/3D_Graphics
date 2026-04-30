@@ -1,9 +1,9 @@
 This project documents my progress while learning OpenGL using LearnOpenGL.
 
 Current progress:
-- Camera implementation is done
+- Phong Shading Implementation
 
-![Camera](docs/camera.gif)
+![Camera](docs/lights.gif)
 
 Next step:
 - Implementing lights
